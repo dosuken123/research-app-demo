@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 def scrape_text(url: str):
     # Send a GET request to the webpage
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
 
         # Check if the request was successful
         if response.status_code == 200:
@@ -17,7 +17,7 @@ def scrape_text(url: str):
             # Print the extracted text
             return page_text
         else:
-            return f"Failed to retrieve the webpage: Status code {response.status_code}"
+            raise Exception(f"Failed to retrieve the webpage: Status code {response.status_code}")
     except Exception as e:
         print(e)
-        return f"Failed to retrieve the webpage: {e}"
+        raise Exception(f"Failed to retrieve the webpage: {e}")
