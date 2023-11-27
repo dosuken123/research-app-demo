@@ -90,8 +90,44 @@ chain = RunnablePassthrough.assign(
     research_summary= research_chain | join_list_in_list,
 ) | summary_prompt | ChatOpenAI(model="gpt-3.5-turbo-1106") | StrOutputParser()
 
-chain.invoke(
-    {
-        "question": "What kind of character Ryu is in Street Fighter 6?"
-    }
+# chain.invoke(
+#     {
+#         "question": "What kind of character Ryu is in Street Fighter 6?"
+#     }
+# )
+
+#!/usr/bin/env python
+from fastapi import FastAPI
+from langserve import add_routes
+
+
+app = FastAPI(
+  title="LangChain Server",
+  version="1.0",
+  description="A simple api server using Langchain's Runnable interfaces",
 )
+
+add_routes(
+    app,
+    chain,
+    path="/research-app",
+)
+
+# add_routes(
+#     app,
+#     ChatAnthropic(),
+#     path="/anthropic",
+# )
+
+# model = ChatAnthropic()
+# prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
+# add_routes(
+#     app,
+#     prompt | model,
+#     path="/joke",
+# )
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="localhost", port=8000)

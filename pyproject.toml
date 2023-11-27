@@ -14,6 +14,9 @@ requests = "^2.31.0"
 beautifulsoup4 = "^4.12.2"
 unstructured = "^0.11.0"
 duckduckgo-search = "^3.9.6"
+fastapi = "^0.104.1"
+langserve = "^0.0.30"
+sse-starlette = "^1.8.2"
 
 [build-system]
 requires = ["poetry-core"]
